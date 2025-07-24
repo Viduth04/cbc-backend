@@ -12,7 +12,7 @@ export function createUser(req,res){
     if(newUserData.type=="admin"){
         if(req.user==null){
             res.json({
-                message:"}lease login as administrator to create admin accounts"
+                message:"lease login as administrator to create admin accounts"
             })
             return
         }
@@ -20,6 +20,7 @@ export function createUser(req,res){
             res.json({
                 message:"please login as administrator to create admin accounts"
             })
+            return
         }
     }
     newUserData.password=bcrypt.hashSync(newUserData.password,10);
@@ -80,4 +81,27 @@ export function loginUser(req,res){
     })
 }
 
-//john.doe@example.com
+export function isAdmin(req){
+    if(req.user==null){
+        return false
+    }
+
+    if(req.user.type !="admin"){
+        return false
+    }
+    return true
+}
+
+export function isCustomer(req){
+    if(req.user==null){
+        return false
+    }
+
+    if(req.user.type !="admin"){
+        return false
+    }
+    return true
+}
+
+//john.doe@example.com,SecurePass123!
+//johnadmin.doe@example.com,SecurePass123!==admin
