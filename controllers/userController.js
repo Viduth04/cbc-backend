@@ -97,7 +97,7 @@ export function isCustomer(req){
         return false
     }
 
-    if(req.user.type !="admin"){
+    if(req.user.type !="customer"){
         return false
     }
     return true

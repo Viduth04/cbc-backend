@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const productShema=mongoose.Schema({
+const productSchema=mongoose.Schema({
     productId:{
         type:String,
     },
@@ -37,6 +37,10 @@ const productShema=mongoose.Schema({
 
 })
 
-const product=mongoose.model("products",productShema);
+/*const product=mongoose.model("products",productSchema);
 
-export default product;
+export default product;*/
+
+const Product=mongoose.model("products",productSchema);
+
+export default Product;
