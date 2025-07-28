@@ -1,11 +1,13 @@
-/*import Order from "../models/order.js";
+import Order from "../models/order.js";
+import Product from "../models/product.js";
 import { isCustomer } from "./userController.js";
 
 export async function createOrder(req,res){
 // take the latest product ID
 
+
 if(!isCustomer(req)){
-    res.json({
+   return res.json({
         message:"Please login as customer to create order"
     })
 }
@@ -16,7 +18,7 @@ try{
     ({date:-1}).limit(1)
     let orderId
 
-    if(latestOrder.length===0){
+    if(latestOrder.length==0){
         orderId="CBC0001";
     }else{
         const currentOrderId=latestOrder[0].orderId;
@@ -29,6 +31,39 @@ try{
     }
 
     const newOrderData=req.body
+    const newProductArray=[]
+
+    for(let i=0;i<req.body.orderedItems.length;i++){
+      //  console.log(req.body.orderedItems[i]);
+
+      const product=await Product.findOne({
+        productId: newOrderData.orderedItems[i].productId
+      })
+       // console.log(product);
+        if(product==null){
+            res.json({
+                message:"product with id "+newOrderData.orderedItems[i].productId+" not found"
+            })
+            return
+        }
+
+        newProductArray[i]={
+            name:product.productName,
+            price:product.price,
+            quantity:newOrderData.orderedItems[i].quantity,
+           // image:product.image[0]
+         // image: Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : ""
+         image: Array.isArray(product?.images) && product.images.length > 0 ? product.images[0] : ""
+
+        }
+       
+        
+    }
+    //console.log(product);
+    console.log("Processed all products:", newProductArray);
+
+
+    newOrderData.orderedItems=newProductArray
     newOrderData.orderId=orderId
     newOrderData.email=req.user.email
 
@@ -58,7 +93,7 @@ try{
         })
     }
     
-}
+}*/
 export async function getOrders(req, res) {
     try {
       const orders = await Order.find({ email: req.user.email });
@@ -67,4 +102,4 @@ export async function getOrders(req, res) {
       return res.status(500).json({ message: error.message }); // ✅ return
     }
   }
-  */
+  

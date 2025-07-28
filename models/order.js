@@ -1,4 +1,4 @@
-/*import mongoose from "mongoose";
+import mongoose from "mongoose";
 
 const orderSchema=mongoose.Schema({
    orderId :{
@@ -60,4 +60,4 @@ const orderSchema=mongoose.Schema({
 })
 
 const Order=mongoose.model("orders",orderSchema);
-export default Order;*/
+export default Order;
